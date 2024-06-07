@@ -1,0 +1,19 @@
+<pre><div class="text_to_html">declare
+  cursor book_cursor is
+     select * from book;
+  Cursor_row book%rowtype;
+begin
+  open book_cursor;
+  dbms_output.put_line(&#039;Outside the loop&#039;);
+  fetch book_cursor into cursor_row; -- to retrieve the first record
+  while book_cursor%found
+  Loop
+    dbms_output.put_line(&#039;inside the loop&#039;);
+    dbms_output.put_line(cursor_row.b_id || &#039; &#039; || cursor_row.b_title || &#039; &#039; ||cursor_row.b_price || &#039; &#039; || cursor_row.b_cat);
+    fetch book_cursor into cursor_row;
+--    exit when book_cursor%notfound;
+  end loop;
+  close book_cursor;
+end;
+/
+</div></pre>

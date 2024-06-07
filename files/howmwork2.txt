@@ -1,0 +1,75 @@
+select item_id,item_desc,cat_id
+from item 
+where item_id = 1;
+
+==============================
+
+
+select c_first , sum(inv_price)
+from customer c ,orders o ,order_line ol ,inventory i
+where c.c_id = o.c_id and o.o_id = ol.o_id and ol.inv_id = i.inv_id and o.o_id = 1
+group by c.c_first
+
+=========================
+
+
+select count(*)
+from item i , inventory s
+where i.item_id  = s.item_id  and i.item_desc like 'Boy%';
+
+=======================
+
+
+select ship_id , item_desc
+from item i , inventory n , shipment_line sl
+where i.item_id = n.item_id and n.inv_id = sl.inv_id and sl.sl_date_received is null;
+
+=====================
+ create or replace view item_vw as select item_desc ,inv_price , inv_qoh
+ from item i , inventory n
+ where i.item_id = n.item_id;
+
+
+=====================
+
+select sum(inv_price * inv_qoh)
+from item_vw;
+
+============================
+
+ select sl.ship_id , sl_date_received
+ from shipment s , shipment_line sl
+ where s.ship_id = sl.ship_id and  sl_date_received is not null;
+
+========
+
+select c.c_id , c_first , c_last
+from customer c , orders o , order_line ol , inventory n , item i
+where c.c_id = o.c_id and o.o_id = ol.o_id and ol.inv_id = n.inv_id and n.item_id = i.item_id and i.item_id = 
+(select i.item_id 
+from customer c , orders o , order_line ol , inventory n , item i
+where c.c_id = o.c_id and o.o_id = ol.o_id and ol.inv_id = n.inv_id and n.item_id = i.item_id and c.c_id = 3);
+
+
+=======================
+
+
+
+select sum(inv_price)
+from category c , item i , inventory n
+where c.cat_id = i.cat_id and i.item_id = n.item_id and c.cat_id =
+( select cat_id
+from category
+where lower(cat_desc) = lower('outdoor gear') );
+
+
+========================
+
+
+
+
+===================================
+
+
+
+

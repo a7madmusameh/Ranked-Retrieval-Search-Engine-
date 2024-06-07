@@ -1,0 +1,62 @@
+SQL> create table employee(
+  2  employee_id number(6) not null,
+  3  first_name varchar2(20),
+  4  last_name varchar2(25) not null,
+  5  email varchar2(25) not null,
+  6  phone_number varchar2(20),
+  7  hire_date date not null,
+  8  job_id varchar2(10) not null,
+  9  salary number(8,2),
+ 10  commission_pct number(2,2),
+ 11  manager_id number(6),
+ 12  department_id number(4)
+ 13  );
+
+Table created.
+
+SQL> create table department(
+  2  department_id number(4) not null,
+  3  department_name varchar(30) not null,
+  4  manager_id number(6),
+  5  location_id number(4)
+  6  );
+
+Table created.
+
+SQL> alter table department modify(department_id number(4) primary key);
+
+Table altered.
+
+SQL> alter table employee modify(employee_id number(6) primary key);
+
+Table altered.
+
+SQL> alter table employee add constraint manager_id_fk_employee_id foreign key(manager_id) references employee(employee_id);
+
+Table altered.
+
+SQL> rename department to depts;
+
+Table renamed.
+
+SQL> alter table depts modify(manager_id number(6) default(9999));
+
+Table altered.
+
+SQL> alter table employee add(emp_gender char);
+
+Table altered.
+
+SQL> alter table depts rename column location_id to loc_id;
+
+Table altered.
+
+SQL> alter table employee modify(emp_gender char default('f'));
+
+Table altered.
+
+SQL> alter table employee add constraint commission_pct_employee_cc check(commission_pct <= 0.25 and department_id > 300 and manager_id = 50);
+
+Table altered.
+
+SQL> spool off;
